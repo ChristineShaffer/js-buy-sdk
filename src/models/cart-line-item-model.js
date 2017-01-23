@@ -1,4 +1,5 @@
 import BaseModel from './base-model';
+import ImageModel from './image-model';
 import GUID_KEY from '../metal/guid-key';
 
 /**
@@ -60,7 +61,7 @@ const CartLineItemModel = BaseModel.extend({
    * @type {Object}
    */
   get image() {
-    return this.attrs.image;
+    return new ImageModel(this.attrs.image);
   },
 
   /**
@@ -84,7 +85,11 @@ const CartLineItemModel = BaseModel.extend({
     * @type {Array}
   */
   get imageVariants() {
-    return this.attrs.image_variants;
+    if (!this.image) {
+      return [];
+    }
+
+    return this.image.variants;
   },
 
   /**
